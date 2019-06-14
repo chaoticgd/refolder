@@ -37,6 +37,9 @@ int main() {
 	p.reflect(
 		[](const char* name, rf::property<int> p) {
 			std::cout << "Property \"" << name << "\" of type int with value \"" << p.get() << "\".\n";
+			if(std::string(name) == "Age") {
+				p.set(p.get() + 1);
+			}
 		},
 		[](const char* name, rf::property<float> p) {
 			std::cout << "Property \"" << name << "\" of type float with value \"" << p.get() << "\".\n";
@@ -45,4 +48,5 @@ int main() {
 			std::cout << "Property \"" << name << "\" of type string with string \"" << p.get() << "\".\n";
 		}
 	);
+	std::cout << "John's new age is " << p.age << ".\n";
 }
