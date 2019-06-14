@@ -30,11 +30,11 @@ struct person {
 };
 
 int main() {
-	person p;
-	p.name = "John Smith";
-	p.age = 42;
-	p.height = 1.8;
-	p.reflect(
+	person john;
+	john.name = "John Smith";
+	john.age = 42;
+	john.height = 1.8;
+	john.reflect(
 		[](const char* name, rf::property<int> p) {
 			std::cout << "Property \"" << name << "\" of type int with value \"" << p.get() << "\".\n";
 			if(std::string(name) == "Age") {
@@ -48,5 +48,5 @@ int main() {
 			std::cout << "Property \"" << name << "\" of type string with string \"" << p.get() << "\".\n";
 		}
 	);
-	std::cout << "John's new age is " << p.age << ".\n";
+	std::cout << "John's new age is " << john.age << ".\n";
 }
