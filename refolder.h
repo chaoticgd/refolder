@@ -33,6 +33,11 @@ namespace rf {
 		std::function<void(T_value)> set;
 	};
 
+	// A static reflection mechanism.
+	//
+	// For each call to visit_r, visit_m or visit_f, match the given property
+	// with a callback of the correct type that was passed to the constructor,
+	// if one exists.
 	template <typename T_object, typename... T_callbacks>
 	class reflector {
 	public:
@@ -41,7 +46,7 @@ namespace rf {
 
 		template <typename T_value>
 		void visit_r(const char* name, T_value& value) {
-			// Wrap the reference in a pair of getters/setters.
+			// Wrap the reference in a getter and setter.
 			visit_f(name,
 				[&value]() { return value; },
 				[&value](T_value v) { value = v; });
@@ -50,7 +55,7 @@ namespace rf {
 		template <typename T_getter, typename T_setter>
 			// where T_getter, T_setter are member function pointers.
 		void visit_m(const char* name, T_getter get, T_setter set) {
-			// Convert the pair of getters/setters to a functor.
+			// Convert the getter and setter to functors.
 			visit_f(name,
 				[=]() { return (*_that.*get)(); },
 				[=](decltype((*_that.*get)()) value)
@@ -75,6 +80,7 @@ namespace rf {
 			}
 		}
 
+		// Match a callback to a getter and setter.
 		template <typename T_value>
 		void call(
 			const char* name,
