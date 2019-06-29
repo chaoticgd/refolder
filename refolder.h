@@ -55,11 +55,12 @@ namespace rf {
 		template <typename T_getter, typename T_setter>
 			// where T_getter, T_setter are member function pointers.
 		void visit_m(const char* name, T_getter get, T_setter set) {
+			T_object* that = _that; // By value.
 			// Convert the getter and setter to functors.
 			visit_f(name,
-				[=]() { return (*_that.*get)(); },
-				[=](decltype((*_that.*get)()) value)
-					{ (*_that.*set)(value); });
+				[=]() { return (*that.*get)(); },
+				[=](decltype((*that.*get)()) value)
+					{ (*that.*set)(value); });
 		}
 
 		template <typename T_getter, typename T_setter>
